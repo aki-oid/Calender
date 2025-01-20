@@ -1,0 +1,105 @@
+<!DOCTYPE html><!--ホーム画面html-->
+<html lang="ja">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title >カレンダー</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+
+</head>
+<body>
+	<div id="index" class="container">
+		<ul><h1><a href="{{ url_for('now_month') }}">My Calendar</a></h1></ul>
+	
+		<div class="month-navigation">
+			<a href="{{ url_for('previous_month') }}" class="button"><i class="fas fa-arrow-left"></i> 前の月</a>
+			<h2>{{ year }}年{{ month }}月</h2>
+			<a href="{{ url_for('next_month') }}" class="button">次の月 <i class="fas fa-arrow-right"></i></a>
+		</div>
+		<table>
+			<thead>
+				<tr>
+					<th class="sunday">日</th>
+					<th>月</th>
+					<th>火</th>
+					<th>水</th>
+					<th>木</th>
+					<th>金</th>
+					<th class="saturday">土</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for week in month_days %}
+					<tr>
+						{% for day in week %}<!--終了期間を付け加えるとしたら、ここから一部レイアウト変える必要あるかも-->
+							{% if day == 0 %}
+								<td></td>
+							{% else %}
+								<td class="{{ 'today' if year == now_year and month == now_month and day == now_day 
+								else '' }}">
+									{{ day }}
+
+									<ul>
+										{% for schedule in schedules %}
+											{% if schedule.startdate.year == year and schedule.startdate.month == month and schedule.startdate.day == day  %}
+
+												<li class="{% if schedule.category == 'プライベート' %}schedule-private
+												{% elif schedule.category == '学校' %}schedule-school
+												{% elif schedule.category == '仕事・バイト' %}schedule-work
+												{% else %}schedule
+												{% endif %}">
+													<a href="{{ url_for('view_schedule', schedule_id=schedule.id) }}">{{ schedule.title }}</a>
+												</li>
+											{% endif %}
+										{% endfor %}
+									</ul>
+
+								</td>
+							{% endif %}
+						{% endfor %}
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		<a href="{{ url_for('create_schedule') }}" class="button">
+			<i class="fas fa-pencil-alt"></i> メモを作る
+		</a>
+
+		
+<!--calendar下の詳細コンテンツ-->
+		{% if schedule %}
+		<div class="detail">
+			<ul><h3 class="title-border"><a href="{{ url_for('edit_schedule', schedule_id=schedule.id) }}">{{ schedule.startdate }}　　{{ schedule.title }}</a></h3></ul>
+			<div class="contents">
+				<p>カテゴリー：{{ schedule.category }}</p>
+				<p>場所　　：{{ schedule.location }}</p>
+				<p>関連URL：<a href="{{ schedule.url_link }}">{{ schedule.url_link }}</a></p>
+				<p>追記メモ：</p>
+				<p>　　{{ schedule.content }}</p>
+			</div>
+		</div>
+		{% endif %}
+
+
+<!--浦山さんの元のを一応残しとくね。変数名やクラス名を変えているけど、create-date.sqlに格納されてるscheduleは、これで詳細ページの下に全て表示できるはず。
+
+		<div class="schedules">
+			<h2 class="title-border">メモった課題</h2>
+			{% if not schedules %}
+				<p>まだメモがありません。</p>
+			{% endif %}
+			{% for schedule in schedules %}
+			<li class="card">
+				<ul><a href="{{ url_for('edit_schedule', schedule_id=schedule.id) }}">{{ schedule.title }}</a></ul>
+				<p class="small">作成日: {{ schedule.created_at.strftime('%Y年 %m月 %d日 %H:%M') }}</p>
+			</li>
+			{% endfor %}
+		</div>
+-------------------------------------->
+
+
+	</div>
+</body>
+</html>

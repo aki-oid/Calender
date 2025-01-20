@@ -1,0 +1,31 @@
+<!DOCTYPE html><!--これを編集用htmlに書き換えたいな～。このままでは表示だけで終わってて入力はできない。-->
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>カレンダー - {{ schedule.title }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/edit_schedule.css') }}">
+</head>
+<body>
+    <div id="edit_schedule" class="container">
+        <h1 class="title-border">{{ schedule.title }}</h1>
+        <div class="contents">
+            <p>日付：{{ schedule.startdate }}</p>
+            <p>カテゴリー：{{ schedule.category }}</p>
+            <p>場所：{{ schedule.location }}</p>
+            <p>関連url：{{ schedule.url_link }}</p>
+            <p>{{ schedule.content }}</p>
+            <p class="small">作成日: {{ schedule.created_at.strftime('%Y年 %m月 %d日 %H:%M') }}</p>
+        </div>
+
+        <!-- ここに削除ボタンを追加する -->
+        <form method="POST" action="{{ url_for('delete_schedule', schedule_id=schedule.id) }}">
+            <button type="submit" class="delete button">メモを削除</button>
+        </form>
+         
+
+        <a href="{{ url_for('index') }}" class="button">メモ一覧に戻る</a>
+    </div>
+</body>
+</html>
