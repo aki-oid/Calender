@@ -1,0 +1,55 @@
+<!DOCTYPE html><!--新規作成用html-->
+<html lang="ja">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>カレンダー - 新規作成</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/create_schedule.css') }}">
+</head>
+<body>
+	<div id="create_schedule" class="container">
+		<h1 class="title-border">My Calendar - 新規作成</h1>
+
+		<form action="{{ url_for('create_schedule') }}" method="POST" class="modern-form">
+			<div class="form-group">
+				<label for="title">件名</label>
+				<input type="text" id="title" name="title" required>
+			</div> 
+
+			<div class="form-group">
+				<label for="title">開始日</label>
+				<input type="date" id="startdate" name="startdate" required>
+				
+				<label for="title">終了日</label>
+				<input type="date" id="finishdate" name="finishdate">
+			</div>
+			
+			<div class="form-group">
+				<label for="title">分類</label>
+				<input type="radio" id="private" name="category" value="プライベート" checked>プライベート
+				<input type="radio" id="school" name="category" value="学校">学校
+				<input type="radio" id="work" name="category" value="仕事・バイト">仕事・バイト
+			</div>
+
+			<div class="form-group">
+				<label for="location">場所</label>
+				<input type="text" id="location" name="location">
+			</div>
+
+			<div class="form-group">
+				<label for="url_link">関連URL</label>
+				<input type="text" id="url_link" name="url_link">
+			</div>
+
+			<div class="form-group">
+				<label for="content">予定詳細 </label>
+				<textarea id="content" name="content"></textarea>
+			</div>
+			<button type="submit" class="button">予定を保存</button>
+		</form>
+
+		<a href="{{ url_for('index') }}" class="button">カレンダーに戻る</a>
+	</div>
+</body>
+</html>
