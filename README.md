@@ -1,6 +1,6 @@
 # Calender
 
-localhost：http://localhost:3000/ or http://localhost:5000/  がアプリのリンクになります。
+localhost：http://localhost:5000/  がアプリのリンクになります。
 このカレンダーWebアプリはFlaskを用いて制作されており、主にPython、HTML、CSS、SQLで構成されています。
 基本的なカレンダー機能を実装しており、予定の追加、編集、削除が可能で、予定や祝日は全てデータベースに保存されます。
 
